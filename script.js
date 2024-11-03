@@ -20,27 +20,32 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function startHalloweenLoop() {
-    typeText(text, message, 100, () => {
+    typeText(text, message, 200, () => {
       setTimeout(() => {
         jumpscare.classList.add('hidden');
 
+        // بعد از 3 ثانیه، جامپ‌اسکر نمایش داده می‌شود
         setTimeout(() => {
           message.style.opacity = '0';
           jumpscare.classList.remove('hidden');
-          screamAudio.volume = 1.0;
-          screamAudio.loop = true;
-          screamAudio.play();
+          screamAudio.volume = 1.0; // تنظیم صدا به 100%
+          screamAudio.loop = true; // تنظیم صدا به حالت تکرار
+          screamAudio.play().catch((error) => {
+            console.log('Playback prevented:', error);
+            alert('برای پخش صدا، لطفاً روی صفحه کلیک کنید.'); // پیام به کاربر
+          });
 
+          // بعد از 3 ثانیه صبر کنه و به حالت اول برگرده
           setTimeout(() => {
             screamAudio.pause();
-            screamAudio.currentTime = 0;
-            message.style.opacity = '1';
-            startHalloweenLoop();
+            screamAudio.currentTime = 0; // بازنشانی صدا برای تکرار
+            message.style.opacity = '1'; // بازگرداندن پیام به حالت اول
+            startHalloweenLoop(); // تکرار افکت
           }, 3000);
-        }, 1000);
-      }, 500);
+        }, 3000);
+      }, 1000); // زمان اضافی برای دیدن متن کامل
     });
   }
 
-  startHalloweenLoop();
+  startHalloweenLoop(); // شروع اولین نمایش
 });
