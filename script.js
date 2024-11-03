@@ -4,6 +4,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const screamAudio = document.getElementById('scream-audio');
   const text = 'Happy Halloween!';
 
+  // بارگذاری صدا به‌محض لود صفحه
+  screamAudio.load();
+
   function typeText(text, element, delay, callback) {
     let index = 0;
     element.textContent = '';
@@ -30,10 +33,16 @@ window.addEventListener('DOMContentLoaded', () => {
           jumpscare.classList.remove('hidden');
           screamAudio.volume = 1.0; // تنظیم صدا به 100%
           screamAudio.loop = true; // تنظیم صدا به حالت تکرار
-          screamAudio.play().catch((error) => {
-            console.log('Playback prevented:', error);
-            alert('برای پخش صدا، لطفاً روی صفحه کلیک کنید.'); // پیام به کاربر
-          });
+
+          // پخش صدا
+          screamAudio
+            .play()
+            .then(() => {
+              console.log('Playback started successfully');
+            })
+            .catch((error) => {
+              console.log('Playback prevented:', error);
+            });
 
           // بعد از 3 ثانیه صبر کنه و به حالت اول برگرده
           setTimeout(() => {
@@ -47,5 +56,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // شروع چرخه افکت
   startHalloweenLoop(); // شروع اولین نمایش
 });
